@@ -4,32 +4,37 @@ URL_LINK = "https://rkgamingstore.com/collections/85-keyboards-89-keys/products/
 blackKeyboardElement = "a.variant-color-btn:nth-child(3) > div:nth-child(1)"
 brownKeysElement = ".product_variant_box > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > a:nth-child(3)"
 popUpCancel = "svg.needsclick > circle:nth-child(2)"
+submitButton = "div.product-form__controls-group:nth-child(2) > div:nth-child(1) > button:nth-child(1)"
 
-timeDelay = 4000
+timeDelay = 2000
 
 def main():
 	with sync_playwright() as p:
 		browser = p.firefox.launch(headless=False)
 		page = browser.new_page()
 		page.goto(URL_LINK)
-		page.wait_for_timeout(5000)
+		page.wait_for_timeout(timeDelay)
   
 		try:
 			expect(page.locator(popUpCancel)).to_be_visible()
-			print("Popup appeared")
+			print("Pop-up Appeared")
 			page.locator(popUpCancel).click()
-			print("Pop up removed")
-			print("Now Clicking Keyboard Choices")
+			print("Pop-up Removed")
+			print("Now Clicking Keyboard Choices...")
 		except TimeoutError:
 			print("No Pop-Up. Going to Next Code")
 
-		page.locator(blackKeyboardElement).click()
+	
 		page.wait_for_timeout(timeDelay)
 		page.locator(blackKeyboardElement).click()
-		print("Chose Black Keyboard")
+		print("Black Keyboard Selected")
   
+		page.wait_for_timeout(timeDelay)
 		page.locator(brownKeysElement).click()
-		print("Chose Brown Keys")
+		print("Brown Keys Selected")
+  
+		page.locator(submitButton).hover()
+		print("Hovering Submit Button")
   
 		page.wait_for_timeout(timeDelay)
 		browser.close()
