@@ -16,8 +16,11 @@ def checkItem():
 		page.goto(URL_LINK)
 		page.wait_for_timeout(timeDelay)
   
+		print("Logging into Page")
+  
 		try:
-			expect(page.locator(popUpCancel)).to_be_visible()
+			# expect(page.locator(popUpCancel)).to_be_visible(TimeoutError=3000)
+			page.locator(popUpCancel)
 			print("Pop-up Appeared")
 			page.locator(popUpCancel).click()
 			print("Pop-up Removed")
@@ -35,7 +38,7 @@ def checkItem():
 		print("Brown Keys Selected")
   
 		keyboardUnavailable = page.get_by_role(role="button").filter(has_text="Sold out").is_visible()
-		keyboardAvailable = page.get_by_role(role="button").filter(has_text="add To Cart").is_visible()
+		keyboardAvailable = page.get_by_role(role="button").filter(has_text="add To Cart").first.is_visible()
   
 		if keyboardUnavailable:
 			print("Keyboard is Unavailable")
@@ -44,9 +47,9 @@ def checkItem():
 		else:
 			print("Page has been Updated")
 		
-  
+		print("Terminating Code")
 		page.wait_for_timeout(timeDelay)
 		browser.close()
   
 if __name__ == "__main__":
-    checkItem()
+	checkItem()
