@@ -1,2 +1,0 @@
-from pw_automate import checkItem
-from send_text import send_notification

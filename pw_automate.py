@@ -1,4 +1,4 @@
-from playwright.sync_api import sync_playwright, expect, TimeoutError
+from playwright.sync_api import sync_playwright, TimeoutError
 from send_text import send_notification
 
 URL_LINK = "https://rkgamingstore.com/collections/85-keyboards-89-keys/products/rk-royal-kludge-rk89-89-keys-mechanical-keyboard?variant=43033749455069"

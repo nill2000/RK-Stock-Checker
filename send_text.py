@@ -8,7 +8,6 @@ conn = http.client.HTTPSConnection("api.pushover.net:443")
 
 poTOKEN = os.getenv("po_api_token")
 poUSER = os.getenv("po_user_key")
-subject = "Notification for Keyboard"
 message = "Keyboard is Available"
 
 

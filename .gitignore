@@ -1,3 +1,7 @@
 venv
 .env
-
+lambda_function.py
+project1.zip
+package
+typing_extensions.py
+__pycache__
