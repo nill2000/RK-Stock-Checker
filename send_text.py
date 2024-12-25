@@ -11,25 +11,27 @@ poUSER = os.getenv("po_user_key")
 subject = "Notification for Keyboard"
 message = "Keyboard is Available"
 
-try:
-    conn.request("POST", "/1/messages.json",
-    urllib.parse.urlencode({
-        "token": poTOKEN,
-        "user": poUSER,
-        "message": message,
-    }), { "Content-type": "application/x-www-form-urlencoded" })
-    response = conn.getresponse()
 
-    if response.status == 200:
-        print("Response Successful")
-    else:
-        print("Error occurred")
+def send_notification(message_):
+    try:
+        conn.request("POST", "/1/messages.json",
+        urllib.parse.urlencode({
+            "token": poTOKEN,
+            "user": poUSER,
+            "message": message_,
+        }), { "Content-type": "application/x-www-form-urlencoded" })
+        response = conn.getresponse()
+
+        if response.status == 200:
+            print("Response Successful")
+        else:
+            print("Error occurred")
+            
+    except Exception as e:
+        print(e)
         
-except Exception as e:
-    print(e)
-    
-finally:
-    conn.close()
-
-def send_notification():
-    pass
+    finally:
+        conn.close()
+        
+if __name__ == "__main__":
+    send_notification(message_="Hello from Testing")

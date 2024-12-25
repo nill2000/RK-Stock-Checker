@@ -1,4 +1,5 @@
 from playwright.sync_api import sync_playwright, expect, TimeoutError
+from send_text import send_notification
 
 URL_LINK = "https://rkgamingstore.com/collections/85-keyboards-89-keys/products/rk-royal-kludge-rk89-89-keys-mechanical-keyboard?variant=43033749455069"
 blackKeyboardElement = "a.variant-color-btn:nth-child(3) > div:nth-child(1)"
@@ -19,8 +20,7 @@ def checkItem():
 		print("Logging into Page")
   
 		try:
-			# expect(page.locator(popUpCancel)).to_be_visible(TimeoutError=3000)
-			page.locator(popUpCancel)
+			page.locator(popUpCancel).wait_for(state="visible", timeout=5000)
 			print("Pop-up Appeared")
 			page.locator(popUpCancel).click()
 			print("Pop-up Removed")
@@ -37,15 +37,21 @@ def checkItem():
 		page.locator(brownKeysElement).click()
 		print("Brown Keys Selected")
   
-		keyboardUnavailable = page.get_by_role(role="button").filter(has_text="Sold out").is_visible()
-		keyboardAvailable = page.get_by_role(role="button").filter(has_text="add To Cart").first.is_visible()
-  
-		if keyboardUnavailable:
-			print("Keyboard is Unavailable")
-		elif keyboardAvailable:
-			print("Keyboard is Availble")
-		else:
-			print("Page has been Updated")
+		try:
+			keyboardUnavailable = page.get_by_role(role="button").filter(has_text="Sold out").is_visible()
+			keyboardAvailable = page.get_by_role(role="button").filter(has_text="add To Cart").first.is_visible()
+	
+			if keyboardUnavailable:
+				print("Keyboard is Unavailable")
+				send_notification(message_="Keyboard is Unvailable")	
+			elif keyboardAvailable:
+				print("Keyboard is Availble")
+				print("Sending notification")
+				send_notification(message_="Keyboard is Available")
+			else:
+				print("Page has been Updated")
+		except Exception as error:
+			print(error)
 		
 		print("Terminating Code")
 		page.wait_for_timeout(timeDelay)
